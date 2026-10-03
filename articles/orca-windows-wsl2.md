@@ -80,6 +80,14 @@ git add -A && git commit -m "..." && git push -u origin HEAD
 gh pr create
 ```
 
+このターミナルの中身はWSLの普通のbashなので、後半で紹介するラッパーは要りません。ターミナルからOrca自体を操作したい場合も、Orcaはターミナルに `ORCA_CLI_COMMAND=orca-ide` という環境変数を設定していて、公式の `orca-ide` を使う想定になっています。`orca-ide` は今いるフォルダから対象のワークツリーを推定できるので、自分のワークツリーに対する操作ならそのまま動きます。
+
+```text
+$ echo $ORCA_CLI_COMMAND
+orca-ide
+$ orca-ide worktree current
+```
+
 ワークツリーを削除するときに、注意点が1つあります。CLIのヘルプによると、ワークツリーのフォルダは消えますが、ブランチが消えるのは、マージ済みだとOrcaが判定できた場合だけです。GitHubでsquash mergeした場合などは残ることがあるので、`git branch` で確かめてください。
 
 ## ワークツリーごとに.venvなどを作り直す分のディスクに注意する
@@ -90,7 +98,7 @@ gh pr create
 
 ## WSLからコマンドで操作したい場合
 
-ここからは、WSLのシェルやWSL内のClaude Codeから `orca` コマンドを使うための準備です。画面だけで使うなら読み飛ばしてかまいません。
+ここからは、WSLのシェルやWSL内のClaude Codeから `orca` コマンドを使うための準備です。画面だけで使うなら読み飛ばしてかまいません。Orcaのターミナルでリポジトリを触るだけなら、ここの作業は不要です。ラッパーが必要になるのは、`--repo path:$HOME/...` のようにLinuxのパスでOrcaの操作対象を指定したいときだけです。
 
 ### つまずく原因は、orca.exeがパスやコマンドをWindows側で解決すること
 
